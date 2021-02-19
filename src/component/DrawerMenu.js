@@ -34,6 +34,10 @@ const MENUS = {
         key: 'addCategory',
         title: '添加类别',
     },
+    CategoryList: {
+        key: 'CategoryList',
+        title: '类别列表',
+    },
     config: {
         key: 'config',
         title: '配置中心',
@@ -71,11 +75,11 @@ class Index extends React.Component {
             case 'user':
                 pathName = '/user';
                 break;
-            case 'category':
-                pathName = '/category';
-                break;
             case 'addCategory':
                 pathName = '/addCategory';
+                break;
+            case 'CategoryList':
+                pathName = '/category';
                 break;
             case 'config':
                 pathName = '/config';
@@ -101,6 +105,8 @@ class Index extends React.Component {
             <Menu.Item key={MENUS.home.key} icon={<HomeOutlined/>}>{MENUS.home.title}</Menu.Item>
             <Menu.Item key={MENUS.user.key} icon={<UserOutlined/>}>{MENUS.user.title}</Menu.Item>
             <SubMenu key={MENUS.category.key} title={MENUS.category.title} icon={<ProjectOutlined/>}>
+                <Menu.Item key={MENUS.CategoryList.key}
+                           icon={<AppstoreAddOutlined/>}>{MENUS.CategoryList.title}</Menu.Item>
                 <Menu.Item key={MENUS.addCategory.key}
                            icon={<AppstoreAddOutlined/>}>{MENUS.addCategory.title}</Menu.Item>
             </SubMenu>
