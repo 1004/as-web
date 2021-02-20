@@ -34,12 +34,12 @@ export default class CategoryAdd extends React.Component {
                       )
                   }}
             >
-                <Form.Item label={CATEGORY_NAME} name="categroy_name"
+                <Form.Item className="addCategory-input" label={CATEGORY_NAME} name="categroy_name"
                            rules={[{required: true, message: '请输入分类名字!'}]}
                 >
-                    <Input/>
+                    <Input />
                 </Form.Item>
-                <Form.Item>
+                <Form.Item className='addCategory-btn'>
                     <Button type="primary" htmlType="submit">
                         添加分类
                     </Button>

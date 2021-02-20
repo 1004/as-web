@@ -2,7 +2,7 @@ import React from 'react'
 import './category.less'
 
 import Api from '../../service/api'
-import {Table} from 'antd'
+import {Table,Space} from 'antd'
 
 const PAGE_SIZE = 2;
 export default class Category extends React.Component {
@@ -22,7 +22,20 @@ export default class Category extends React.Component {
                 title: '创建时间',
                 dataIndex: 'createTime'
             },
+            {
+                title: 'operate',
+                key: 'deleteIndex',
+                render:(text,record)=>(
+                    <Space size="middle">
+                        <a onClick={()=>{this.deleteCategory(record)}}>删除</a>
+                    </Space>
+                )
+            },
         ];
+    }
+
+    deleteCategory=(record)=>{
+        console.log(record.categoryId);
     }
 
     componentDidMount() {

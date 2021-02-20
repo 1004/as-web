@@ -2,6 +2,7 @@
   "name": "as-web",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://127.0.0.1/build",
   "dependencies": {
     "@ant-design/icons": "^4.5.0",
     "@craco/craco": "^6.1.0",
