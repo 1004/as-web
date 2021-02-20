@@ -8,3 +8,7 @@ export function categoryList(params) {
 export function addCategoryName(params) {
     return post(apiPath.api.addCategory)(params)();
 }
+
+export function deleteCategory(params) {
+    return get(apiPath.api.deleteCategory)(params);
+}

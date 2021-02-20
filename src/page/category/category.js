@@ -2,7 +2,7 @@ import React from 'react'
 import './category.less'
 
 import Api from '../../service/api'
-import {Table,Space} from 'antd'
+import {Table, Space, Popconfirm, message} from 'antd'
 
 const PAGE_SIZE = 2;
 export default class Category extends React.Component {
@@ -25,18 +25,41 @@ export default class Category extends React.Component {
             {
                 title: 'operate',
                 key: 'deleteIndex',
-                render:(text,record)=>(
+                render: (text, record) => (
                     <Space size="middle">
-                        <a onClick={()=>{this.deleteCategory(record)}}>删除</a>
+                        <Popconfirm
+                            title={`你确定删除${record.categoryName}吗?`}
+                            onConfirm={() => {
+                                this.deleteCategory(record)
+                            }}
+                            okText="删除"
+                            cancelText="取消"
+                        >
+                            <a>删除</a>
+                        </Popconfirm>
                     </Space>
                 )
             },
         ];
     }
 
-    deleteCategory=(record)=>{
-        console.log(record.categoryId);
-    }
+
+    deleteCategory = ({categoryId}) => {
+        Api.deleteCategory({category_id: categoryId}).then(
+            res => res.json()
+        ).then(result => {
+            const {code, msg} = result;
+            if (code === 0) {
+                message.success('删除成功');
+                this.loadData(this.pageIndex);
+            } else {
+                message.success('删除失败-' + msg);
+            }
+
+        }).catch(e => {
+            console.log(e);
+        })
+    };
 
     componentDidMount() {
         this.setState({
@@ -55,12 +78,12 @@ export default class Category extends React.Component {
 
     render() {
         const {loading, data, total} = this.state;
-        return <Table columns={this.columns} loading={loading} rowKey={item =>item.categoryId}
+        return <Table columns={this.columns} loading={loading} rowKey={item => item.categoryId}
                       dataSource={data} pagination={
             {
                 total,
                 pageSize: PAGE_SIZE,
-                onChange:(page,pageSize)=>{
+                onChange: (page, pageSize) => {
                     this.loadData(page)
                 }
             }
