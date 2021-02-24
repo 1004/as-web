@@ -6,6 +6,11 @@ import {Input, Button, message} from "antd";
 const {TextArea} = Input;
 
 export default class ConfigAdd extends React.Component {
+    constructor(pros){
+        super(pros);
+        const {location:{item:{namespance}={}}={}} = this.props;
+        this.namespace = namespance;
+    }
     state = {
         configText: '',
         submit: false
@@ -48,6 +53,7 @@ export default class ConfigAdd extends React.Component {
                         defaultValue={this.namespace}
                         placeHolder="请输入..."
                         autoSize={{maxRows: 1}}
+                        disabled={this.namespace != null}
                     />
                 </div>
                 <div>

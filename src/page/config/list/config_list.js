@@ -2,6 +2,8 @@ import React from 'react'
 import './config_list.less'
 import API from '../../../service/api'
 import {Table} from 'antd'
+import NavigatorUtil,{RouterConfig as MENUS} from '../../../component/Navigator'
+
 
 const PAGE_SIZE = 10;
 export default class ConfigList extends React.Component {
@@ -104,6 +106,7 @@ export default class ConfigList extends React.Component {
 
     //编辑
     editRecord(record) {
-
+        const {history} = this.props;
+        NavigatorUtil.goto(MENUS.addConfig,history)({item:record})
     }
 }

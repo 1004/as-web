@@ -12,51 +12,33 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 
+import NavigatorUtil,{RouterConfig as MENUS,ROUTER_EVENT} from './Navigator'
+import EventBus from 'react-native-event-bus'
+
 const {Sider} = Layout;
 const {SubMenu} = Menu;
 
 // map
 
-const MENUS = {
-    home: {
-        key: 'home',
-        title: '首页',
-    },
-    user: {
-        key: 'user',
-        title: '用户管理'
-    },
-    category: {
-        key: 'category',
-        title: '类别管理',
-    },
-    addCategory: {
-        key: 'addCategory',
-        title: '添加类别',
-    },
-    CategoryList: {
-        key: 'CategoryList',
-        title: '类别列表',
-    },
-    config: {
-        key: 'config',
-        title: '配置中心',
-    },
-    configList: {
-        key: 'configList',
-        title: '配置列表',
-    },
-    addConfig: {
-        key: 'addConfig',
-        title: '添加配置'
-    }
-}
-
-
 class Index extends React.Component {
 
     state = {
         selectedKeys: ['home']
+    }
+
+    componentDidMount() {
+        EventBus.getInstance().addListener(ROUTER_EVENT,this.listener=(data)=>{
+            const {key,title,pathname}=data;
+            this.setState({
+                selectedKeys:[key]
+            })
+            const {onMenuSelect}=this.props;
+            onMenuSelect&&onMenuSelect(pathname,title);
+        });
+    }
+
+    componentWillUnmount() {
+        EventBus.getInstance().removeListener(this.listener)
     }
 
     onCollapse = collapsed => {
@@ -67,40 +49,16 @@ class Index extends React.Component {
         this.setState({
             selectedKeys: [selectKeys.key]
         })
-        let pathName;
-        switch (selectKeys.key) {
-            case 'home':
-                pathName = '/home';
-                break;
-            case 'user':
-                pathName = '/user';
-                break;
-            case 'addCategory':
-                pathName = '/addCategory';
-                break;
-            case 'CategoryList':
-                pathName = '/category';
-                break;
-            case 'config':
-                pathName = '/config';
-                break;
-            case 'configList':
-                pathName = '/configList';
-                break;
-            case 'addConfig':
-                pathName = '/addConifg';
-                break;
-        }
         const {history,onMenuSelect} = this.props;
-        const menu = MENUS[selectKeys.key]
-        if (pathName){
-            history.push(pathName)
-            onMenuSelect&&onMenuSelect(pathName,menu.title)
-        }
+        const menu = MENUS[selectKeys.key];
+        NavigatorUtil.goto(menu,history)();
+        onMenuSelect&&onMenuSelect(menu.pathname,menu.title);
     };
 
     menu() {
-        return <Menu theme='dark' defaultSelectedKeys={this.state.selectedKeys} mode='inline'
+        let selectKeys = this.state.selectedKeys;
+        return <Menu theme='dark' defaultSelectedKeys={selectKeys} mode='inline'
+                     selectedKeys={selectKeys}
                      onSelect={e => this.onSelect(e)}>
             <Menu.Item key={MENUS.home.key} icon={<HomeOutlined/>}>{MENUS.home.title}</Menu.Item>
             <Menu.Item key={MENUS.user.key} icon={<UserOutlined/>}>{MENUS.user.title}</Menu.Item>
