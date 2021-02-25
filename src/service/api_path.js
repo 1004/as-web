@@ -1,4 +1,4 @@
-export const baseUrl = "http://127.0.0.1:5088";
+export const baseUrl = "http://127.0.0.1:8080/as";
 export const api = {
     categoryList: "/goods/category/query",
     addCategory: "/goods/category/add",
