@@ -60,7 +60,7 @@ export default class ConfigAdd extends React.Component {
         API.addConfig({name_space: this.namespace, content: configText})
             .then(res => res.json())
             .then(result => {
-                const {code, msg,data:{}} = result;
+                const {code, msg} = result;
                 if (code === 0) {
                     message.success("添加成功");
                     this.loadConfigList();
